@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>مساعد المعلم الذكي</title>
+
+<style>
+
+    body {
+  font-family: "Tahoma", Arial, sans-serif;
+  padding: 30px;
+  position: relative;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(37,99,235,0.18), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(14,165,233,0.16), transparent 35%),
+    radial-gradient(circle at 50% 80%, rgba(99,102,241,0.12), transparent 40%),
+    #eef4ff;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(90deg, transparent 0%, rgba(37,99,235,0.18) 50%, transparent 100%),
+    radial-gradient(circle, rgba(37,99,235,0.35) 2px, transparent 3px);
+
+  background-size:
+    260px 3px,
+    90px 90px;
+
+  background-position:
+    -260px 20%,
+    0 0;
+
+  background-repeat:
+    repeat-x,
+    repeat;
+
+  animation: dataStream 6s linear infinite;
+  opacity: 0.75;
+}
+
+@keyframes dataStream {
+  from {
+    background-position:
+      -260px 20%,
+      0 0;
+  }
+
+  to {
+    background-position:
+      260px 20%,
+      180px 0;
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+    
+    
+.container {
+  max-width: 950px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.logo {
+  width: 90px;
+  height: auto;
+}
+
+.title-box h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #1d4ed8;
+}
+
+.title-box p {
+  margin: 6px 0 0;
+  color: #475569;
+  font-size: 15px;
+}
+
+.form-card {
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 25px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 18px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+button {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #1e40af;
+}
+
+.result {
+  background: #f1f5ff;
+  padding: 28px;
+  border-radius: 18px;
+  margin-top: 25px;
+  line-height: 1.9;
+  border: 1px solid #dbeafe;
+}
+
+.result h1, .result h2, .result h3 {
+  color: #1e3a8a;
+}
+
+/* الخريطة الذهنية */
+.mindmap {
+  margin: 30px auto;
+  padding: 25px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 18px;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.mindmap-center {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 14px 34px;
+  border-radius: 35px;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.mindmap-tree {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.mindmap-node {
+  background: #eef6ff;
+  border: 2px solid #93c5fd;
+  border-radius: 18px;
+  padding: 15px;
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.mindmap-branch-title {
+  background: #dbeafe;
+  border: 1px solid #60a5fa;
+  border-radius: 20px;
+  padding: 10px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.mindmap-leaf {
+  background: white;
+  border: 1px solid #bae6fd;
+  border-radius: 14px;
+  padding: 8px;
+  margin: 7px 0;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .container {
+    box-shadow: none;
+    max-width: 100%;
+  }
+
+  .form-card,
+  button {
+    display: none;
+  }
+
+  .mindmap {
+    page-break-inside: avoid;
+  }
+}
+    
+button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+    
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+/* يمين */
+.header-right {
+  justify-self: end;
+}
+
+/* وسط */
+.header-center {
+  text-align: center;
+}
+
+/* يسار */
+.header-left {
+  justify-self: start;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}  
+
+.header-right .logo {
+  width: 180px;
+}  
+    
+    .header-center h1 {
+  color: #2563eb;
+  font-weight: 800;
+  letter-spacing: 1px;
+        
+}
+    
+    .college-name {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #475569;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.4;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 6px;
+  width: 85%;
+}
+    
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+
+    
+  <div class="header">
+
+  <!-- يمين: شعار المؤسسة -->
+  <div class="header-right">
+    <img src="tvtc-logo.png" class="logo" alt="شعار المؤسسة">
+       <div class="college-name">الكلية التقنية بالمخواة</div>
+  </div>
+
+  <!-- الوسط: العنوان -->
+  <div class="header-center">
+    <h1>مساعد المعلم</h1>
+    <p>نموذج تطبيقي لتوظيف الذكاء الاصطناعي في إعداد المحتوى التعليمي</p>
+  </div>
+
+  <!-- يسار: شعار AI -->
+  <div class="header-left">
+    <img src="ai-icon.jpg" class="logo" alt="شعار الذكاء الاصطناعي">
+  </div>
+
+</div>
+
+  <div class="form-card">
+    <label>موضوع الدرس</label>
+    <input id="topic" required placeholder="مثال: االحاسب الآلي">
+
+    <label>المستوى</label>
+    <select id="level" required>
+      <option>مبتدئ</option>
+      <option>متوسط</option>
+      <option>متقدم</option>
+    </select>
+
+    <label>اللغة</label>
+    <select id="lang" required>
+      <option>العربية</option>
+      <option>English</option>
+    </select>
+
+    <label>مدة الدرس بالدقائق</label>
+    <input id="duration" type="number" value="10" required>
+
+    
+      <button id="generateBtn" onclick="generateLesson()" disabled>إنشاء الدرس</button>
+  </div>
+
+  <div id="output" class="result"></div>
+<button id="pdfBtn" onclick="exportLessonPDF()" style="display:none;">تصدير الدرس PDF</button>
+  <div class="footer">
+    المؤسسة العامة للتدريب التقني والمهني - الكلية التقنية بالمخواة
+  </div>
+
+</div>
+
+<script>
+async function generateLesson() {
+  const output = document.getElementById("output");
+  output.innerText = "جاري إنشاء الدرس...";
+
+  const data = {
+    topic: document.getElementById("topic").value,
+    level: document.getElementById("level").value,
+    lang: document.getElementById("lang").value,
+    duration: Number(document.getElementById("duration").value)
+  };
+
+  try {
+    const res = await fetch("/generate-lesson", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    let lesson = result.lesson || result.error || "";
+
+    lesson = lesson.replace(/```html/g, "");
+    lesson = lesson.replace(/```/g, "");
+
+    let html = marked.parse(lesson);
+
+    html = html
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+
+    output.innerHTML = html;
+      
+      document.getElementById("pdfBtn").style.display = "block";
+
+  } catch (error) {
+    output.innerText = "حدث خطأ أثناء إنشاء الدرس.";
+    console.error(error);
+  }
+}
+    
+    const topicInput = document.getElementById("topic");
+const levelInput = document.getElementById("level");
+const langInput = document.getElementById("lang");
+const durationInput = document.getElementById("duration");
+const generateBtn = document.getElementById("generateBtn");
+
+function checkForm() {
+  const topic = topicInput.value.trim();
+  const level = levelInput.value.trim();
+  const lang = langInput.value.trim();
+  const duration = Number(durationInput.value);
+
+  generateBtn.disabled = !(topic && level && lang && duration > 0);
+}
+
+topicInput.addEventListener("input", checkForm);
+levelInput.addEventListener("change", checkForm);
+langInput.addEventListener("change", checkForm);
+durationInput.addEventListener("input", checkForm);
+
+checkForm();
+    
+   function exportLessonPDF() {
+  const lessonContent = document.getElementById("output").innerHTML;
+
+  if (!lessonContent.trim()) {
+    alert("لا يوجد محتوى لتصديره");
+    return;
+  }
+
+  const printWindow = window.open("", "_blank");
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+      <meta charset="UTF-8">
+      <title>تصدير الدرس</title>
+      <style>
+        body {
+          font-family: Tahoma, Arial, sans-serif;
+          direction: rtl;
+          padding: 25px;
+          line-height: 1.9;
+          color: #0f172a;
+          background: white;
+        }
+
+        .lesson-page {
+          max-width: 900px;
+          margin: auto;
+        }
+
+        h1, h2, h3 {
+          color: #2563eb;
+        }
+
+        .mindmap {
+          margin: 25px auto;
+          padding: 20px;
+          background: #f8fafc;
+          border: 1px solid #cbd5e1;
+          border-radius: 18px;
+          text-align: center;
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        .mindmap-center {
+          display: inline-block;
+          background: #2563eb;
+          color: white;
+          padding: 12px 30px;
+          border-radius: 35px;
+          font-weight: bold;
+          font-size: 18px;
+          margin-bottom: 20px;
+        }
+
+        .mindmap-tree {
+          display: flex;
+          justify-content: center;
+          gap: 14px;
+          flex-wrap: wrap;
+          align-items: flex-start;
+        }
+
+        .mindmap-node {
+          background: #eef6ff;
+          border: 2px solid #93c5fd;
+          border-radius: 18px;
+          padding: 12px;
+          min-width: 170px;
+          max-width: 220px;
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        .mindmap-branch-title {
+          background: #dbeafe;
+          border: 1px solid #60a5fa;
+          border-radius: 20px;
+          padding: 8px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+
+        .mindmap-leaf {
+          background: white;
+          border: 1px solid #bae6fd;
+          border-radius: 14px;
+          padding: 7px;
+          margin: 6px 0;
+        }
+
+        @page {
+          size: A4;
+          margin: 15mm;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="lesson-page">
+        ${lessonContent}
+      </div>
+
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+}
+    
+</script>
+
+</body>
+</html>
